@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shakir Hussain - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Custom styles for the Poppins font and smooth scrolling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Define CSS variables for dynamic colors */
+        :root {
+            --primary-bg-color: #2C3E50; /* Default: Deep Muted Blue */
+            --primary-text-color: #FFFFFF; /* Default: White */
+            --secondary-text-color: #2C3E50; /* Default: Dark blue for light sections */
+        }
+
+        /* Apply CSS variables to Tailwind classes */
+        .bg-primary-dynamic {
+            background-color: var(--primary-bg-color);
+        }
+        .text-primary-dynamic {
+            color: var(--primary-text-color);
+        }
+        .text-secondary-dynamic {
+            color: var(--secondary-text-color);
+        }
+
+
+        /* Style for active navigation link (optional, can be added with JS) */
+        .nav-link.active {
+            @apply text-green-600 font-semibold; /* Changed to green-600 */
+        }
+        /* Back to Top button styling */
+        #back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #10B981; /* green-500 */
+            color: white;
+            padding: 1rem 1.25rem;
+            border-radius: 9999px; /* fully rounded */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none; /* Hidden by default */
+            cursor: pointer;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            z-index: 1000;
+            font-size: 1.5rem; /* Larger icon */
+        }
+        #back-to-top:hover {
+            background-color: #059669; /* green-600 */
+            transform: translateY(-3px);
+        }
+        /* Custom modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Project card overlay for hover effect */
+        .project-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 0.75rem; /* Match card border-radius */
+        }
+
+        .project-card:hover .project-card-overlay {
+            opacity: 1;
+        }
+
+        .project-card-overlay .project-title-overlay {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .project-card-overlay .project-links-overlay {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-card-overlay .project-links-overlay a {
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .project-card-overlay .project-links-overlay a:hover {
+            color: #10B981; /* Tailwind green-500 */
+        }
+
+    </style>
+</head>
+<body class="text-gray-800">
+    <header class="bg-white shadow-sm py-4 fixed top-0 left-0 w-full z-50">
+        <nav class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <a href="#hero" class="text-2xl font-bold text-green-600 rounded-lg p-2 hover:bg-green-50 transition duration-300 mb-2 md:mb-0">Shakir Hussain</a>
+            <ul class="flex flex-wrap justify-center items-center space-x-3 md:space-x-4">
+                <li><a href="#about" class="nav-link text-gray-700 hover:text-green-600 transition duration-300 rounded-md px-3 py-2 hover:scale-105">About</a></li>
+                <li><a href="#skills" class="nav-link text-gray-700 hover:text-green-600 transition duration-300 rounded-md px-3 py-2 hover:scale-105">Skills</a></li>
+                <li><a href="#projects" class="nav-link text-gray-700 hover:text-green-600 transition duration-300 rounded-md px-3 py-2 hover:scale-105">Projects</a></li>
+                <li><a href="#contact" class="nav-link text-gray-700 hover:text-green-600 transition duration-300 rounded-md px-3 py-2 hover:scale-105">Contact</a></li>
+                <li>
+                    <button id="themeSwitcherBtn" class="bg-gray-200 text-gray-700 hover:bg-gray-300 transition duration-300 rounded-md px-2 py-1.5 text-sm md:px-3 md:py-2">
+                        <i class="fas fa-palette mr-1"></i> Next Theme
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero" class="relative bg-primary-dynamic text-primary-dynamic flex items-center justify-center min-h-screen pt-16 md:pt-0 cursor-pointer theme-changeable-section">
+        <div class="container mx-auto px-4 text-center py-20 md:py-0">
+            <img src="my photo.jpg" alt="Shakir Hussain's Photo" class="rounded-full w-36 h-36 mx-auto mb-6 border-4 border-white shadow-lg object-cover">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">Hi, I'm <span class="text-green-300">Shakir Hussain</span></h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto opacity-90">A passionate Data Scientist and AI Specialist building engaging and efficient web experiences.</p>
+            <a href="#projects" class="inline-block bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-600 hover:scale-105 transition duration-300 ease-in-out">View My Work</a>
+        </div>
+    </section>
+
+    <section id="about" class="container mx-auto px-4 py-16 md:py-24 bg-primary-dynamic text-primary-dynamic theme-changeable-section">
+        <h2 class="text-4xl font-bold text-center text-primary-dynamic mb-12">About Me</h2>
+        <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-xl shadow-lg">
+            <p class="text-lg leading-relaxed mb-6 text-gray-700">
+                Hello! I'm Shakir Hussain, a Data Scientist and AI Specialist with a strong passion for creating intuitive user interfaces, solving complex problems with code, and building scalable backend systems. I thrive on learning new technologies and applying them to build impactful solutions.
+            </p>
+            <p class="text-lg leading-relaxed mb-6 text-gray-700">
+                My journey in data science and AI began 2 years ago, and since then, I've had the opportunity to work on diverse projects, ranging from WordPress website development to deep learning models for image classification. I am particularly interested in full-stack development, machine learning, and data science.
+            </p>
+            <p class="text-lg leading-relaxed text-gray-700">
+                When I'm not coding, you can find me hiking in the mountains. I believe in continuous growth and collaboration, and I'm always excited to connect with fellow professionals and contribute to open-source projects.
+            </p>
+        </div>
+    </section>
+
+    <section id="skills" class="bg-primary-dynamic py-16 md:py-24 text-primary-dynamic theme-changeable-section">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center text-primary-dynamic mb-12">My Skills</h2>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
+                    <i class="fab fa-wordpress text-5xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">WordPress Development</h3>
+                    <ul class="list-none text-gray-600 text-sm">
+                        <li>Theme Customization</li>
+                        <li>Plugin Development</li>
+                        <li>WooCommerce Integration</li>
+                        <li>Site Optimization</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
+                    <i class="fas fa-chart-bar text-5xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Data Analysis</h3>
+                    <ul class="list-none text-gray-600 text-sm">
+                        <li>Data Cleaning & Preprocessing</li>
+                        <li>Statistical Analysis</li>
+                        <li>Data Visualization (Matplotlib, Seaborn)</li>
+                        <li>SQL for Data Retrieval</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
+                    <i class="fas fa-brain text-5xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">AI/ML & Deep Learning</h3>
+                    <ul class="list-none text-gray-600 text-sm">
+                        <li>Machine Learning Algorithms</li>
+                        <li>Deep Learning Frameworks (TensorFlow, PyTorch)</li>
+                        <li>Natural Language Processing (NLP)</li>
+                        <li>Computer Vision</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
+                    <i class="fas fa-paint-brush text-5xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">UI/UX Design</h3>
+                    <ul class="list-none text-gray-600 text-sm">
+                        <li>Wireframing & Prototyping</li>
+                        <li>User Research</li>
+                        <li>Figma, Adobe XD</li>
+                        <li>Usability Testing</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
+                    <i class="fab fa-python text-5xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Python Development</h3>
+                    <ul class="list-none text-gray-600 text-sm">
+                        <li>Python Programming</li>
+                        <li>Scripting & Automation</li>
+                        <li>Web Scraping</li>
+                        <li>Data Structures & Algorithms</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
+                    <i class="fas fa-cogs text-5xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">DevOps</h3>
+                    <ul class="list-none text-gray-600 text-sm">
+                        <li>CI/CD Pipelines</li>
+                        <li>Jenkins, GitHub Actions</li>
+                        <li>Containerization (Docker)</li>
+                        <li>Cloud Deployments</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
+                    <i class="fas fa-users text-5xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Soft Skills</h3>
+                    <ul class="list-none text-gray-600 text-sm">
+                        <li>Problem Solving</li>
+                        <li>Team Collaboration</li>
+                        <li>Effective Communication</li>
+                        <li>Adaptability</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
+                    <i class="fas fa-keyboard text-5xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Data Entry Specialist</h3>
+                    <ul class="list-none text-gray-600 text-sm">
+                        <li>Accurate Data Input</li>
+                        <li>Data Verification</li>
+                        <li>Database Management</li>
+                        <li>Spreadsheet Proficiency</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="container mx-auto px-4 py-16 md:py-24">
+        <h2 class="text-4xl font-bold text-secondary-dynamic text-center mb-12">My Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="relative bg-white rounded-xl shadow-lg overflow-hidden group project-card">
+                <img src="https://placehold.co/600x400/9ED5B2/FFFFFF?text=WordPress+Site" alt="WordPress Website Design Image" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">WordPress Website Design</h3>
+                    <p class="text-gray-700 mb-4 text-sm">Designed and developed a responsive and visually appealing website using WordPress, focusing on user experience and custom functionalities.</p>
+                </div>
+                <div class="project-card-overlay rounded-xl">
+                    <h3 class="project-title-overlay">WordPress Website Design</h3>
+                    <div class="project-links-overlay">
+                        <a href="https://github.com/shakirhussain128/wordpress-project" target="_blank">
+                            <i class="fab fa-github mr-1"></i> GitHub
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fas fa-external-link-alt mr-1"></i> Live Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative bg-white rounded-xl shadow-lg overflow-hidden group project-card">
+                <img src="https://placehold.co/600x400/C8E6C9/FFFFFF?text=CNN+Project" alt="CNN Expression Classification Image" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">CNN Project: Expression Classification</h3>
+                    <p class="text-gray-700 mb-4 text-sm">Developed a Convolutional Neural Network (CNN) model for classifying human facial expressions from image data, demonstrating expertise in deep learning and computer vision.</p>
+                </div>
+                <div class="project-card-overlay rounded-xl">
+                    <h3 class="project-title-overlay">CNN Expression Classification</h3>
+                    <div class="project-links-overlay">
+                        <a href="https://github.com/shakirhussain128/cnn-expression-classification" target="_blank">
+                            <i class="fab fa-github mr-1"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative bg-white rounded-xl shadow-lg overflow-hidden group project-card">
+                <img src="https://placehold.co/600x400/FDCF9C/FFFFFF?text=Data+Dashboard" alt="Data Analysis Dashboard Image" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Interactive Data Dashboard</h3>
+                    <p class="text-gray-700 mb-4 text-sm">Developed an interactive web-based dashboard for visualizing and exploring complex datasets, enabling users to gain insights through dynamic charts and filters.</p>
+                </div>
+                <div class="project-card-overlay rounded-xl">
+                    <h3 class="project-title-overlay">Interactive Data Dashboard</h3>
+                    <div class="project-links-overlay">
+                        <a href="https://github.com/shakirhussain128/data-analysis-dashboard" target="_blank">
+                            <i class="fab fa-github mr-1"></i> GitHub
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fas fa-external-link-alt mr-1"></i> Live Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative bg-white rounded-xl shadow-lg overflow-hidden group project-card">
+                <img src="https://placehold.co/600x400/D4EDDA/FFFFFF?text=UI/UX+Portfolio" alt="UI/UX Portfolio Website Image" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Modern UI/UX Portfolio</h3>
+                    <p class="text-gray-700 mb-4 text-sm">Crafted a sleek and intuitive UI/UX design for a personal portfolio website, focusing on clean aesthetics, responsive layouts, and engaging user interactions.</p>
+                </div>
+                <div class="project-card-overlay rounded-xl">
+                    <h3 class="project-title-overlay">Modern UI/UX Portfolio</h3>
+                    <div class="project-links-overlay">
+                        <a href="https://www.behance.net/yourprofile/ui-ux-portfolio" target="_blank">
+                            <i class="fas fa-link mr-1"></i> Behance/Dribbble
+                        </a>
+                        <a href="#" target="_blank">
+                            <i class="fas fa-external-link-alt mr-1"></i> Live Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative bg-white rounded-xl shadow-lg overflow-hidden group project-card">
+                <img src="https://placehold.co/600x400/E8F5E9/FFFFFF?text=Python+Automation" alt="Python Automation Script Image" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Automated Web Scraping Tool</h3>
+                    <p class="text-gray-700 mb-4 text-sm">Developed a Python script to automate data extraction from various websites, streamlining data collection processes for analysis and reporting.</p>
+                </div>
+                <div class="project-card-overlay rounded-xl">
+                    <h3 class="project-title-overlay">Automated Web Scraping Tool</h3>
+                    <div class="project-links-overlay">
+                        <a href="https://github.com/shakirhussain128/web-scraping-tool" target="_blank">
+                            <i class="fab fa-github mr-1"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative bg-white rounded-xl shadow-lg overflow-hidden group project-card">
+                <img src="https://placehold.co/600x400/DCEDC8/FFFFFF?text=NLP+Project" alt="Deep Learning NLP Project Image" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Sentiment Analysis with Deep Learning</h3>
+                    <p class="text-gray-700 mb-4 text-sm">Built a deep learning model using recurrent neural networks (RNNs) to perform sentiment analysis on text data, classifying opinions as positive, negative, or neutral.</p>
+                </div>
+                <div class="project-card-overlay rounded-xl">
+                    <h3 class="project-title-overlay">Sentiment Analysis with Deep Learning</h3>
+                    <div class="project-links-overlay">
+                        <a href="https://github.com/shakirhussain128/sentiment-analysis-nlp" target="_blank">
+                            <i class="fab fa-github mr-1"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="bg-primary-dynamic py-16 md:py-24 text-primary-dynamic theme-changeable-section">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold text-primary-dynamic mb-12">Get In Touch</h2>
+            <p class="text-lg text-primary-dynamic mb-8 max-w-2xl mx-auto">
+                I'm always open to new opportunities, collaborations, and interesting conversations. Feel free to reach out!
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
+                <button id="openContactForm" class="bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-green-700 hover:scale-105 transition duration-300 ease-in-out flex items-center">
+                    <i class="fas fa-envelope mr-2"></i> Email Me
+                </button>
+                <a href="https://www.linkedin.com/in/shakir-hussain-48a902312/" target="_blank" class="bg-gray-700 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-800 hover:scale-105 transition duration-300 ease-in-out flex items-center">
+                    <i class="fab fa-linkedin mr-2"></i> LinkedIn
+                </a>
+                <a href="https://github.com/shakirhussain128" target="_blank" class="bg-gray-800 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-900 hover:scale-105 transition duration-300 ease-in-out flex items-center">
+                    <i class="fab fa-github mr-2"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div id="contactModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button" id="closeContactForm">&times;</span>
+            <h3 class="text-3xl font-bold text-gray-900 mb-6 text-center">Send Me a Message</h3>
+            <form id="contactForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="firstName" class="block text-gray-700 text-sm font-bold mb-2">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-green-500" required>
+                    </div>
+                    <div>
+                        <label for="lastName" class="block text-gray-700 text-sm font-bold mb-2">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-green-500" required>
+                    </div>
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Your Email:</label>
+                    <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-green-500" required>
+                </div>
+                <div>
+                    <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Subject:</label>
+                    <input type="text" id="subject" name="subject" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-green-500" required>
+                </div>
+                <div>
+                    <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+                    <textarea id="description" name="description" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-green-500" required></textarea>
+                </div>
+                <button type="submit" class="bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-green-700 hover:scale-105 transition duration-300 ease-in-out w-full"> Send Message
+                </button>
+                <p id="formMessage" class="text-center mt-4 text-sm"></p>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-8 text-center">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Shakir Hussain. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="https://www.linkedin.com/in/shakir-hussain-48a902312/" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                    <i class="fab fa-linkedin text-xl"></i>
+                </a>
+                <a href="https://github.com/shakirhussain128" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <button id="openContactFormFooter" class="text-gray-400 hover:text-white transition duration-300">
+                    <i class="fas fa-envelope text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Highlight active navigation link based on scroll position
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const highlightNavLink = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100; // Adjusted for fixed header and better scroll point
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.href.includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        };
+
+        // Show/hide Back to Top button
+        const backToTopButton = document.getElementById('back-to-top');
+        const toggleBackToTop = () => {
+            if (window.pageYOffset > 300) { // Show button after scrolling 300px
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        };
+
+        // Scroll to top when button is clicked
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Contact Form Modal Logic
+        const contactModal = document.getElementById('contactModal');
+        const openContactFormBtn = document.getElementById('openContactForm');
+        const openContactFormFooterBtn = document.getElementById('openContactFormFooter');
+        const closeContactFormBtn = document.getElementById('closeContactForm');
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+
+        // Function to open the modal
+        const openModal = () => {
+            contactModal.style.display = 'flex'; // Use flex to center
+            formMessage.textContent = ''; // Clear previous messages
+            contactForm.reset(); // Clear form fields
+        };
+
+        // Function to close the modal
+        const closeModal = () => {
+            contactModal.style.display = 'none';
+        };
+
+        // Event listeners for opening and closing the modal
+        openContactFormBtn.addEventListener('click', openModal);
+        openContactFormFooterBtn.addEventListener('click', openModal);
+        closeContactFormBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside of it
+        window.addEventListener('click', (event) => {
+            if (event.target === contactModal) {
+                closeModal();
+            }
+        });
+
+        // Handle form submission
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // In a real application, you would send this data to a server
+            // For now, we'll just simulate a successful submission
+            formMessage.textContent = 'Message sent successfully!';
+            formMessage.classList.remove('text-red-500');
+            formMessage.classList.add('text-green-500');
+            setTimeout(() => {
+                closeModal();
+                formMessage.textContent = '';
+            }, 2000); // Close modal after 2 seconds
+        });
+
+        // --- THEME SWITCHER LOGIC ---
+        const themeSwitchableSections = document.querySelectorAll('.theme-changeable-section'); // Sections that change color
+        const themeSwitcherBtn = document.getElementById('themeSwitcherBtn'); // The button in the nav
+
+        const colorPalettes = [
+            {
+                name: "Deep Ocean",
+                primaryBg: '#2C3E50', // Deep Muted Blue
+                primaryText: '#FFFFFF',
+                secondaryText: '#2C3E50' // For text on light backgrounds
+            },
+            {
+                name: "Muted Plum",
+                primaryBg: '#3B3A54', // Muted Plum/Indigo
+                primaryText: '#F0F0F0',
+                secondaryText: '#3B3A54'
+            },
+            {
+                name: "Forest Night",
+                primaryBg: '#1A4314', // Dark Forest Green
+                primaryText: '#F0F0F0',
+                secondaryText: '#1A4314'
+            },
+            {
+                name: "Charcoal Grey",
+                primaryBg: '#1A1A1A', // Dark Charcoal/Near Black
+                primaryText: '#FFFFFF',
+                secondaryText: '#1A1A1A'
+            },
+            {
+                name: "Royal Purple",
+                primaryBg: '#4A235A', // Deep Purple
+                primaryText: '#FFFFFF',
+                secondaryText: '#4A235A'
+            },
+            {
+                name: "Midnight Blue",
+                primaryBg: '#0E4D92', // Dark Blue
+                primaryText: '#FFFFFF',
+                secondaryText: '#0E4D92'
+            },
+            {
+                name: "Dark Sienna",
+                primaryBg: '#5C4033', // Dark Brownish-Red
+                primaryText: '#F0F0F0',
+                secondaryText: '#5C4033'
+            },
+            {
+                name: "Stormy Teal",
+                primaryBg: '#2F4F4F', // Dark Slate Grey / Teal
+                primaryText: '#F0F0F0',
+                secondaryText: '#2F4F4F'
+            },
+            {
+                name: "Deep Sapphire",
+                primaryBg: '#0F2C67', // A very deep, rich blue
+                primaryText: '#FFFFFF',
+                secondaryText: '#0F2C67'
+            }
+        ];
+
+        let currentPaletteIndex = 0; // To keep track of the current palette
+
+        const applyTheme = (palette) => {
+            document.documentElement.style.setProperty('--primary-bg-color', palette.primaryBg);
+            document.documentElement.style.setProperty('--primary-text-color', palette.primaryText);
+            document.documentElement.style.setProperty('--secondary-text-color', palette.secondaryText);
+            console.log("Applied Theme:", palette.name); // For debugging: see which theme is applied
+        };
+
+        const switchNextTheme = () => {
+            currentPaletteIndex = (currentPaletteIndex + 1) % colorPalettes.length; // Cycle to the next theme
+            applyTheme(colorPalettes[currentPaletteIndex]);
+        };
+
+        // Event listener for clicking the Hero Section
+        const heroSection = document.getElementById('hero');
+        if (heroSection) {
+            heroSection.addEventListener('click', switchNextTheme);
+        }
+
+        // Event listener for the "Next Theme" button in the header
+        if (themeSwitcherBtn) {
+            themeSwitcherBtn.addEventListener('click', switchNextTheme);
+        }
+
+        // Initialize on scroll
+        window.addEventListener('scroll', () => {
+            highlightNavLink();
+            toggleBackToTop();
+        });
+
+        // Call on load to set initial active link and button visibility
+        document.addEventListener('DOMContentLoaded', () => {
+            highlightNavLink();
+            toggleBackToTop();
+            applyTheme(colorPalettes[currentPaletteIndex]); // Apply initial theme
+        });
+    </script>
+</body>
+</html>
